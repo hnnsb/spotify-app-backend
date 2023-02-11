@@ -1,5 +1,6 @@
 package de.hnnsb.spotifyappbackend.SpotifyApiService;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +35,7 @@ public class SpotifyApiService {
     @Getter
     private SpotifyApi spotifyApi;
 
-    private String userCode;
-
+    @PostConstruct
     public void initSpotifyApi() {
         this.spotifyApi = new SpotifyApi.Builder()
                 .setClientId(this.clientId)
@@ -55,23 +55,21 @@ public class SpotifyApiService {
     }
 
     public String initUserSession(final String userCode, final HttpServletResponse response) throws IOException {
-        this.userCode = userCode;
-
-        final AuthorizationCodeRequest authorizationCodeRequest = this.spotifyApi.authorizationCode(this.userCode).build();
-
+        final AuthorizationCodeRequest authorizationCodeRequest = this.spotifyApi.authorizationCode(userCode).build();
         try {
             final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
 
             // Set access and refresh token for further "spotifyApi" object usage
             this.spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
             this.spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+            response.addHeader("accessToken", authorizationCodeCredentials.getAccessToken());
+            response.addHeader("refreshToken", authorizationCodeCredentials.getRefreshToken());
 
             log.info("Expires in:" + authorizationCodeCredentials.getExpiresIn());
 
         } catch (final IOException | SpotifyWebApiException | ParseException e) {
             log.error("Error could not set authentication and refresh token: " + e.getMessage());
         }
-
         log.info("Initialized new user session");
         response.sendRedirect(this.redirectTarget);
         return this.spotifyApi.getAccessToken();

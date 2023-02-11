@@ -23,7 +23,6 @@ public class AuthController {
 
     @GetMapping("/login")
     public ResponseEntity<SpotifyLoginDto> spotifyLogin() {
-        this.spotifyApiService.initSpotifyApi();
         final SpotifyLoginDto spotifyLoginDto = new SpotifyLoginDto(this.spotifyApiService.requestAuthCode());
         return new ResponseEntity<>(spotifyLoginDto, HttpStatus.OK);
     }

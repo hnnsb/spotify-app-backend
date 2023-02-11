@@ -14,13 +14,15 @@ import se.michaelthelin.spotify.model_objects.specification.Artist;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")
-public class UserListeningHistoryController {
+public class UserDataController {
     private final SpotifyApiService spotifyApiService;
 
     @GetMapping("/users/top-artists")
     public ResponseEntity<Artist[]> getTopArtists() {
         final Artist[] artists = this.spotifyApiService.getUserTopArtists();
-
+        if (artists.length == 0) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 }
