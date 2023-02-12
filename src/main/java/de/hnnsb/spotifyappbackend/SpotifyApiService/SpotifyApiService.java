@@ -36,7 +36,7 @@ public class SpotifyApiService {
     private SpotifyApi spotifyApi;
 
     @PostConstruct
-    public void initSpotifyApi() {
+    private void initSpotifyApi() {
         this.spotifyApi = new SpotifyApi.Builder()
                 .setClientId(this.clientId)
                 .setClientSecret(this.clientSecret)
@@ -75,10 +75,10 @@ public class SpotifyApiService {
         return this.spotifyApi.getAccessToken();
     }
 
-    public Artist[] getUserTopArtists() {
+    public Artist[] getUserTopArtists(final String timeRange, final int amount) {
         final GetUsersTopArtistsRequest getUsersTopArtistsRequest = this.spotifyApi.getUsersTopArtists()
-                .time_range("medium_term")
-                .limit(10)
+                .time_range(timeRange)
+                .limit(amount)
                 .build();
 
         try {
