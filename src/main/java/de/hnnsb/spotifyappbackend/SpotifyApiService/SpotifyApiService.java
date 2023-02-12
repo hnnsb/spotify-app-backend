@@ -13,9 +13,11 @@ import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.specification.Artist;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -89,5 +91,21 @@ public class SpotifyApiService {
             log.error("Could not retrieve top artists: " + e.getMessage());
         }
         return new Artist[0];
+    }
+
+    public Track[] getUserTopTracks(final String timeRange, final int amount) {
+        final GetUsersTopTracksRequest getUsersTopTracksRequest = this.spotifyApi.getUsersTopTracks()
+                .time_range(timeRange)
+                .limit(amount)
+                .build();
+
+        try {
+            final Paging<Track> trackPaging = getUsersTopTracksRequest.execute();
+
+            return trackPaging.getItems();
+        } catch (final Exception e) {
+            log.error("Could not retrieve top tracks: " + e.getMessage());
+        }
+        return new Track[0];
     }
 }
