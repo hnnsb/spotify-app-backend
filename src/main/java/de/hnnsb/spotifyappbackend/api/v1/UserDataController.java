@@ -22,14 +22,14 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/users")
 @Tag(name = "Users", description = "For fetching data about the users favorite music and artists.")
 public class UserDataController {
     private final SpotifyApiService spotifyApiService;
 
     private final List<String> allowedTimeRanges = List.of("short_term", "medium_term", "long_term");
 
-    @GetMapping("/users/top-artists")
+    @GetMapping("/top-artists")
     @Operation(summary = "Get top artists")
     @ApiResponse(responseCode = "200", description = "Returned artists")
     @ApiResponse(responseCode = "400", description = "Wrong search parameters")
@@ -47,7 +47,7 @@ public class UserDataController {
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 
-    @GetMapping("users/top-tracks")
+    @GetMapping("/top-tracks")
     @Operation(summary = "Get top tracks")
     @ApiResponse(responseCode = "200", description = "Returned tracks")
     @ApiResponse(responseCode = "400", description = "Wrong search parameters")
