@@ -1,6 +1,7 @@
-package de.hnnsb.spotifyappbackend.api.v1;
+package de.hnnsb.spotifyappbackend.api.v1.spotify;
 
 import de.hnnsb.spotifyappbackend.SpotifyApiService.SpotifyApiService;
+import de.hnnsb.spotifyappbackend.api.v1.dto.SpotifyLoginDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +17,8 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1")
-public class AuthController {
+@RequestMapping("/v1/spotify")
+public class SpotifyAuthController {
 
     private final SpotifyApiService spotifyApiService;
 

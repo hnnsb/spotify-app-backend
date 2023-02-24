@@ -1,4 +1,4 @@
-package de.hnnsb.spotifyappbackend.api.v1;
+package de.hnnsb.spotifyappbackend.api.v1.dto;
 
 import lombok.Data;
 

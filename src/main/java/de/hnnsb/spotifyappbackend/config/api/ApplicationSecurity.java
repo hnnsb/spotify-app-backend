@@ -18,10 +18,11 @@ public class ApplicationSecurity {
         final String[] patterns = {
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
-                "/v1/**"
+                "/v1/**",
         };
 
         http
+                .csrf().disable()
                 .cors().and()
                 .authorizeHttpRequests()
                 .requestMatchers(patterns)

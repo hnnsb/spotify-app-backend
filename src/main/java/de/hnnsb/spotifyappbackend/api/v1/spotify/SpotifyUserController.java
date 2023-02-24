@@ -1,4 +1,4 @@
-package de.hnnsb.spotifyappbackend.api.v1;
+package de.hnnsb.spotifyappbackend.api.v1.spotify;
 
 import de.hnnsb.spotifyappbackend.SpotifyApiService.SpotifyApiService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,9 +22,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping("/v1/spotify/users")
 @Tag(name = "Users", description = "For fetching data about the users favorite music and artists.")
-public class UserDataController {
+public class SpotifyUserController {
     private final SpotifyApiService spotifyApiService;
 
     private final List<String> allowedTimeRanges = List.of("short_term", "medium_term", "long_term");

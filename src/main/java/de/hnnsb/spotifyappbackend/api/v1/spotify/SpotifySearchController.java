@@ -1,4 +1,4 @@
-package de.hnnsb.spotifyappbackend.api.v1;
+package de.hnnsb.spotifyappbackend.api.v1.spotify;
 
 import de.hnnsb.spotifyappbackend.SpotifyApiService.SpotifyApiService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,9 +22,9 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/search")
+@RequestMapping("/v1/spotify/search")
 @Tag(name = "Search", description = "For searching the spotify db for artists, albums and tracks.")
-public class SearchController {
+public class SpotifySearchController {
 
     private final SpotifyApiService spotifyApi;
 
