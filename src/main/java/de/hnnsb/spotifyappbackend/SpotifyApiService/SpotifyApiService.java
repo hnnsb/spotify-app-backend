@@ -11,16 +11,11 @@ import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
-import se.michaelthelin.spotify.model_objects.specification.Artist;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
-import se.michaelthelin.spotify.requests.data.search.simplified.SearchAlbumsRequest;
-import se.michaelthelin.spotify.requests.data.search.simplified.SearchArtistsRequest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -113,7 +108,7 @@ public class SpotifyApiService {
     }
 
     public AlbumSimplified[] searchForAlbum(final String query) throws IOException, ParseException, SpotifyWebApiException {
-        final SearchAlbumsRequest request = this.spotifyApi.searchAlbums(query)
+        final var request = this.spotifyApi.searchAlbums(query)
                 .limit(10).
                 build();
 
@@ -122,12 +117,18 @@ public class SpotifyApiService {
     }
 
     public Artist[] searchForArtist(final String query) throws IOException, ParseException, SpotifyWebApiException {
-        final SearchArtistsRequest request = this.spotifyApi.searchArtists(query)
-                .limit(10).
-                build();
-
+        final var request = this.spotifyApi.searchArtists(query)
+                .limit(10)
+                .build();
         final Paging<Artist> artists = request.execute();
-
         return artists.getItems();
+    }
+
+    public PlaylistSimplified[] getUserPlaylists(final String userId) throws IOException, ParseException, SpotifyWebApiException {
+        final var request = this.spotifyApi.getListOfUsersPlaylists(userId)
+                .limit(100)
+                .build();
+        final var result = request.execute();
+        return result.getItems();
     }
 }
